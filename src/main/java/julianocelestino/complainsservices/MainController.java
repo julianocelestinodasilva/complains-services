@@ -24,7 +24,12 @@ public class MainController {
 				.buildAndExpand(complain.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
-	
+
+	@GetMapping(path="/{id}")
+	public @ResponseBody Complain getComplain(@PathVariable Long id) {
+		return repository.findOne(id);
+	}
+
 	@GetMapping
 	public @ResponseBody Iterable<Complain> getAllComplains() {
 		return repository.findAll();

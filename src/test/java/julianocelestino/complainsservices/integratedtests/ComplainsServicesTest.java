@@ -44,6 +44,7 @@ public class ComplainsServicesTest {
         final int complainId = size + 1;
         final String complainURI = URL + "/" + complainId;
         assertEquals(complainURI,response.getHeader("location"));
-        // TODO Get complainURI to assert (location)
+        final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
+        assertEquals(complainToIngest,complainIngested);
     }
 }

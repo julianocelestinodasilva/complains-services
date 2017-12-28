@@ -11,7 +11,7 @@ public class Complain {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -25,11 +25,11 @@ public class Complain {
     @Column(nullable = false)
     private String company;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,6 +63,28 @@ public class Complain {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Complain complain = (Complain) o;
+
+        if (!title.equals(complain.title)) return false;
+        if (!description.equals(complain.description)) return false;
+        if (!locale.equals(complain.locale)) return false;
+        return company.equals(complain.company);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + locale.hashCode();
+        result = 31 * result + company.hashCode();
+        return result;
     }
 
     public Complain(String title, String description, String company) {
