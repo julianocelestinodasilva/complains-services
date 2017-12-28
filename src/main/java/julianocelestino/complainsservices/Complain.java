@@ -1,9 +1,6 @@
 package julianocelestino.complainsservices;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by juliano on 26/12/17.
@@ -16,12 +13,16 @@ public class Complain {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String locale;
 
+    @Column(nullable = false)
     private String company;
 
     public Integer getId() {
