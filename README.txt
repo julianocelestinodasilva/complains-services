@@ -6,4 +6,3 @@
 	    To build and run the app execute the command "docker-compose up --build" in the root folder.
   
     - End Points :
-	    GET  http://172.23.0.2:8080/complain/all

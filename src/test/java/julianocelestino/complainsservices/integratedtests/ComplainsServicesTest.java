@@ -31,7 +31,7 @@ public class ComplainsServicesTest {
     @Test
     public void should_ingest_a_complain() throws Exception {
 
-        final String url = URL + "complain";
+        final String url = URL + "complains";
         final Complain complainToIngest = new Complain("Cerveja Quente","cerveja estava quente","Bar do Bira");
         complainToIngest.setLocale("FIXM ME"); // FIXME complainToIngest.setLocale
 

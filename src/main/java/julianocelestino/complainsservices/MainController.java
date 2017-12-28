@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @Controller
-@RequestMapping(path="/complain")
+@RequestMapping(path="/complains")
 public class MainController {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class MainController {
 		return ResponseEntity.created(location).build();
 	}
 	
-	@GetMapping(path="/all")
+	@GetMapping
 	public @ResponseBody Iterable<Complain> getAllComplains() {
 		return repository.findAll();
 	}
