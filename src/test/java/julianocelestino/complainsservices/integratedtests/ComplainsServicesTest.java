@@ -36,7 +36,6 @@ public class ComplainsServicesTest {
     @Test
     public void should_ingest_a_complain() throws Exception {
         final Complain complainToIngest = new Complain("Cerveja Quente","cerveja estava quente","Bar do Bira");
-        complainToIngest.setLocale("FIXM ME"); // FIXME complainToIngest.setLocale
         logger.log(Level.INFO, URL);
         Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
         assertEquals(201,response.getStatusCode());
@@ -45,6 +44,7 @@ public class ComplainsServicesTest {
         final String complainURI = URL + "/" + complainId;
         assertEquals(complainURI,response.getHeader("location"));
         final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
+        complainToIngest.setLocale("São Paulo");
         assertEquals(complainToIngest,complainIngested);
     }
 }
