@@ -1,5 +1,6 @@
 package julianocelestino.complainsservices.integratedtests;
 
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import julianocelestino.complainsservices.Complain;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by juliano on 27/12/17.
@@ -36,8 +38,9 @@ public class ComplainsServicesTest {
         logger.log(Level.INFO, url);
         Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(url);
 
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        logger.log(Level.INFO, "response.getStatusCode() --> " + response.getStatusCode());
+
+        logger.log(Level.INFO, "response --> " + response.getHeaders().getValue("location"));
 
 
     }

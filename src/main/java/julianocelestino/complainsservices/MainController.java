@@ -17,6 +17,7 @@ public class MainController {
 	
 	@PostMapping
 	public ResponseEntity<?> ingestComplain (@RequestBody Complain complain ) {
+		// TODO Valid complain (not null)
 		repository.save(complain);
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
