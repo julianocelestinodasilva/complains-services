@@ -1,6 +1,6 @@
 version: '2'
 services:
-  squares-service:
+  complains-services:
     build: .
     volumes:
       - "./complains-services:/src"

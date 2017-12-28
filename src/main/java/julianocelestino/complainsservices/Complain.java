@@ -63,4 +63,13 @@ public class Complain {
     public void setCompany(String company) {
         this.company = company;
     }
+
+    public Complain(String title, String description, String company) {
+        this.title = title;
+        this.description = description;
+        this.company = company;
+    }
+
+    public Complain() {
+    }
 }
