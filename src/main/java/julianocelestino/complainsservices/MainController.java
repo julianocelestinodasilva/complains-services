@@ -20,7 +20,7 @@ public class MainController {
 		// TODO Valid complain (not null)
 		repository.save(complain);
 		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest()
+				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(complain.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
