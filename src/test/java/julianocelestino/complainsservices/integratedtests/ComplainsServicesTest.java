@@ -34,6 +34,11 @@ public class ComplainsServicesTest {
     }
 
     @Test
+    public void should_return_complains_from_specific_company_in_specific_city () throws Exception {
+        // TODO should_return_complains_from_specific_company_in_specific_city
+    }
+
+    @Test
     public void should_ingest_a_complain() throws Exception {
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","Rock Burguer");
         logger.log(Level.INFO, URL);

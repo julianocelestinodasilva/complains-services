@@ -24,12 +24,11 @@ public class ApplicationController {
 	
 	@PostMapping
 	public ResponseEntity<?> ingestComplain (@RequestBody Complain complain,HttpServletRequest request) {
+		final String cityName = new LocationRepository(resourceLoader).findCity(request.getRemoteAddr());
+		complain.setLocale(cityName);
 		if (!complain.valid()) {
 			throw new IllegalArgumentException(Complain.MSG_INVALID);
 		} else {
-			LocationRepository locationRepository = new LocationRepository(resourceLoader);
-			final String cityName = locationRepository.findCity(request.getRemoteAddr());
-			complain.setLocale(cityName);
 			repository.save(complain);
 			URI location = ServletUriComponentsBuilder
 					.fromCurrentRequest().path("/{id}")
