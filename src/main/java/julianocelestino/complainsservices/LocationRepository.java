@@ -23,7 +23,6 @@ public class LocationRepository {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private File database;
     private DatabaseReader dbReader;
     private ResourceLoader resourceLoader;
 

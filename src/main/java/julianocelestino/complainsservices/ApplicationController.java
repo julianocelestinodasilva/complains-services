@@ -23,14 +23,13 @@ public class ApplicationController {
 	private ResourceLoader resourceLoader;
 	
 	@PostMapping
-	public ResponseEntity<?> ingestComplain (@RequestBody Complain complain,HttpServletRequest request ) {
-		String ip = request.getRemoteAddr();
-		LocationRepository locationRepository = new LocationRepository(resourceLoader);
-		final String cityName = locationRepository.findCity(ip);
-		complain.setLocale(cityName);
+	public ResponseEntity<?> ingestComplain (@RequestBody Complain complain,HttpServletRequest request) {
 		if (!complain.valid()) {
 			throw new IllegalArgumentException(Complain.MSG_INVALID);
 		} else {
+			LocationRepository locationRepository = new LocationRepository(resourceLoader);
+			final String cityName = locationRepository.findCity(request.getRemoteAddr());
+			complain.setLocale(cityName);
 			repository.save(complain);
 			URI location = ServletUriComponentsBuilder
 					.fromCurrentRequest().path("/{id}")
