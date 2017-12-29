@@ -36,7 +36,7 @@ public class ApplicationController {
 		return ResponseEntity.created(location).build();
 	}
 
-	@RequestMapping(params = {"company", "city"})
+	@GetMapping(params = {"company", "city"})
 	public @ResponseBody Iterable<Complain> getComplains(@RequestParam("company") String company, @RequestParam("city") String city) {
 		return repository.findByCompanyAndLocale(company,city);
 	}
