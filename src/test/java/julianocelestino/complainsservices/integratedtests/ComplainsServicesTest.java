@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ComplainsServicesTest {
 
-    private static final String URL = "http://localhost:8080/complains"; // TODO http://172.23.0.2:8080/complains
+    private static final String URL = "http://172.23.0.2:8080/complains";
     private static final String CITY_ADDRESS_NOT_FOUND = "AddressNotFound";
 
     @Test
