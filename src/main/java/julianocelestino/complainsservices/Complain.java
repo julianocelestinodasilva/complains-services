@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Entity
 public class Complain {
 
+    public static final String MSG_INVALID = "Complain attributes (title,description,company) must not be null or empty";
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
@@ -63,6 +65,13 @@ public class Complain {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public boolean valid() {
+        return (title!=null && !title.isEmpty())
+                && (description!=null && !description.isEmpty())
+                && (locale!=null && !locale.isEmpty())
+                && (company!=null && !company.isEmpty());
     }
 
     @Override

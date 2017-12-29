@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ComplainsServicesTest {
 
-    private static final String URL = "http://localhost:8080/complains";
+    private static final String URL = "http://localhost:8080/complains"; // TODO http://172.23.0.2:8080/complains
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private GsonBuilder gsonBuilder;
@@ -46,5 +46,14 @@ public class ComplainsServicesTest {
         final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
         complainToIngest.setLocale("São Paulo");
         assertEquals(complainToIngest,complainIngested);
+    }
+
+    @Test
+    public void should_return_bad_request_for_invalid_complain() throws Exception {
+        final Complain complainToIngest = new Complain("Cerveja Quente","cerveja estava quente","");
+        logger.log(Level.INFO, URL);
+        Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
+        assertEquals(400,response.getStatusCode());
+
     }
 }
