@@ -35,7 +35,7 @@ public class ComplainsServicesTest {
 
     @Test
     public void should_ingest_a_complain() throws Exception {
-        final Complain complainToIngest = new Complain("Cerveja Quente","cerveja estava quente","Bar do Bira");
+        final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","Rock Burguer");
         logger.log(Level.INFO, URL);
         Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
         assertEquals(201,response.getStatusCode());
@@ -44,13 +44,13 @@ public class ComplainsServicesTest {
         final String complainURI = URL + "/" + complainId;
         assertEquals(complainURI,response.getHeader("location"));
         final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
-        complainToIngest.setLocale("AddressNotFound"); // TODO Because my ip is 127.0.0.1, and it can't find on GeoLite2-City.mmdb
+        complainToIngest.setLocale("AddressNotFound"); // TODO Because my ip is 127.0.0.1, and it can't find in GeoLite2-City.mmdb
         assertEquals(complainToIngest,complainIngested);
     }
 
     @Test
     public void should_return_bad_request_for_invalid_complain() throws Exception {
-        final Complain complainToIngest = new Complain("Cerveja Quente","cerveja estava quente","");
+        final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","");
         logger.log(Level.INFO, URL);
         Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
         assertEquals(400,response.getStatusCode());
