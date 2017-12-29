@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class ComplainsServicesTest {
 
     private static final String URL = "http://localhost:8080/complains"; // TODO http://172.23.0.2:8080/complains
-    private static final String CITY_NOT_FOUND = "AddressNotFound";
+    private static final String CITY_ADDRESS_NOT_FOUND = "AddressNotFound";
 
     @Test
     public void should_return_complains_from_specific_company_in_specific_city () throws Exception {
@@ -28,20 +28,22 @@ public class ComplainsServicesTest {
                 .toJson(new Complain("Cobrança Indevida","Operadora está fazendo uma cobrança indevida", expectedCompany))).post(URL);
         expect().statusCode(200).
                 body("size()", is(1)).
-                body("get(0).locale", equalTo(CITY_NOT_FOUND)).
+                body("get(0).locale", equalTo(CITY_ADDRESS_NOT_FOUND)).
                 body("get(0).company", equalTo(expectedCompany)).
-                when().get(URL + "?company="+expectedCompany+"&city=" + CITY_NOT_FOUND);
+                when().get(URL + "?company="+expectedCompany+"&city=" + CITY_ADDRESS_NOT_FOUND);
     }
 
     @Test
     public void should_ingest_a_complain() throws Exception {
         given().when().delete (URL).then().statusCode(204);
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","Rock Burguer");
-        Response response = given().contentType("application/json").and().body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
+        Response response = given().contentType("application/json").and()
+                .body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
         assertEquals(201,response.getStatusCode());
         final String complainURI = response.getHeader("location");
-        final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
-        complainToIngest.setLocale(CITY_NOT_FOUND); // TODO Because my ip is 127.0.0.1, and it can't find in GeoLite2-City.mmdb
+        final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn()
+                .getBody().as(Complain.class);
+        complainToIngest.setLocale(CITY_ADDRESS_NOT_FOUND); // TODO Because my ip is 127.0.0.1, and it can't find in GeoLite2-City.mmdb
         assertEquals(complainToIngest,complainIngested);
     }
 
@@ -50,6 +52,5 @@ public class ComplainsServicesTest {
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","");
         Response response = given().contentType("application/json").and().body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
         assertEquals(400,response.getStatusCode());
-
     }
 }
