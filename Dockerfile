@@ -9,7 +9,6 @@ ENV PORT 4567
 
 ADD pom.xml /complains-services/pom.xml
 RUN ["mvn", "dependency:resolve"]
-# RUN ["mvn", "verify"]
 
 ADD src /complains-services/src
 RUN ["mvn", "clean"]
