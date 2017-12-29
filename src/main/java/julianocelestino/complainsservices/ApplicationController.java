@@ -28,13 +28,17 @@ public class ApplicationController {
 		complain.setLocale(cityName);
 		if (!complain.valid()) {
 			throw new IllegalArgumentException(Complain.MSG_INVALID);
-		} else {
-			repository.save(complain);
-			URI location = ServletUriComponentsBuilder
-					.fromCurrentRequest().path("/{id}")
-					.buildAndExpand(complain.getId()).toUri();
-			return ResponseEntity.created(location).build();
 		}
+		repository.save(complain);
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(complain.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
+
+	@RequestMapping(params = {"company", "city"})
+	public @ResponseBody Iterable<Complain> getComplains(@RequestParam("company") String company, @RequestParam("city") String city) {
+		throw new RuntimeException("Implementar - company="+company+" , city="+city);
 	}
 
 	@GetMapping(path="/{id}")
