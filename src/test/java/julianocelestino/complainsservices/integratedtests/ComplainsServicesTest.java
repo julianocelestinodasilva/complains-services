@@ -20,6 +20,8 @@ public class ComplainsServicesTest {
     private static final String URL = "http://172.23.0.2:8080/complains";
     private static final String CITY_ADDRESS_NOT_FOUND = "AddressNotFound";
 
+    // TODO Try to change the request IP to fix it (AddressNotFound). Because my ip is 127.0.0.1, and it can't find in GeoLite2-City.mmdb
+
     @Test
     public void should_return_complains_from_specific_company_in_specific_city () throws Exception {
         final String expectedCompany = "Operadora";
