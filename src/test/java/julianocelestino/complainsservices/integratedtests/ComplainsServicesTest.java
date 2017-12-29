@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static io.restassured.RestAssured.expect;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -28,15 +31,14 @@ public class ComplainsServicesTest {
     @Test
     public void should_return_complains_from_specific_company_in_specific_city () throws Exception {
         final String expectedCompany = "Operadora";
+        given().when().delete (URL).then().statusCode(204);
         given().contentType("application/json").and().body(new GsonBuilder().create()
                 .toJson(new Complain("Cobrança Indevida","Operadora está fazendo uma cobrança indevida", expectedCompany))).post(URL);
-        List<Complain> complainsOperadora = given().contentType("application/json").get(URL + "?company="+expectedCompany+"&city=" + CITY_NOT_FOUND)
-                .thenReturn().getBody().as(List.class);
-        assertTrue(complainsOperadora.size() > 0);
-        for (Complain complainOperadora : complainsOperadora) {
-            assertEquals(expectedCompany,complainOperadora.getCompany());
-            assertEquals(CITY_NOT_FOUND,complainOperadora.getLocale());
-        }
+        expect().statusCode(200).
+                body("size()", is(1)).
+                body("get(0).locale", equalTo(CITY_NOT_FOUND)).
+                body("get(0).company", equalTo(expectedCompany)).
+                when().get(URL + "?company="+expectedCompany+"&city=" + CITY_NOT_FOUND);
     }
 
     @Test

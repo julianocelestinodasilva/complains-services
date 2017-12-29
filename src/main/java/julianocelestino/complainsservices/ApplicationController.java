@@ -38,7 +38,7 @@ public class ApplicationController {
 
 	@RequestMapping(params = {"company", "city"})
 	public @ResponseBody Iterable<Complain> getComplains(@RequestParam("company") String company, @RequestParam("city") String city) {
-		throw new RuntimeException("Implementar - company="+company+" , city="+city);
+		return repository.findByCompanyAndLocale(company,city);
 	}
 
 	@GetMapping(path="/{id}")
@@ -49,6 +49,13 @@ public class ApplicationController {
 	@GetMapping
 	public @ResponseBody Iterable<Complain> getAllComplains() {
 		return repository.findAll();
+	}
+
+	@DeleteMapping
+	public ResponseEntity<?> deleteAllComplains() {
+		repository.deleteAll();
+		return new ResponseEntity<Complain>(HttpStatus.NO_CONTENT);
+
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
