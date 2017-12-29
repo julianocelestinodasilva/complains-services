@@ -1,23 +1,15 @@
 package julianocelestino.complainsservices.integratedtests;
 
-import io.restassured.path.json.JsonPath;
+import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
 import julianocelestino.complainsservices.Complain;
-import org.junit.Before;
 import org.junit.Test;
-import com.google.gson.GsonBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.expect;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by juliano on 27/12/17.
@@ -43,14 +35,11 @@ public class ComplainsServicesTest {
 
     @Test
     public void should_ingest_a_complain() throws Exception {
-        List<Complain> allComplains = given().contentType("application/json").get(URL).thenReturn().getBody().as(List.class);
+        given().when().delete (URL).then().statusCode(204);
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","Rock Burguer");
         Response response = given().contentType("application/json").and().body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
         assertEquals(201,response.getStatusCode());
-        final int size = allComplains.size();
-        final int complainId = size + 1;
-        final String complainURI = URL + "/" + complainId;
-        assertEquals(complainURI,response.getHeader("location"));
+        final String complainURI = response.getHeader("location");
         final Complain complainIngested = given().contentType("application/json").get(complainURI).thenReturn().getBody().as(Complain.class);
         complainToIngest.setLocale(CITY_NOT_FOUND); // TODO Because my ip is 127.0.0.1, and it can't find in GeoLite2-City.mmdb
         assertEquals(complainToIngest,complainIngested);
