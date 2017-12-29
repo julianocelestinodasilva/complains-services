@@ -23,26 +23,16 @@ public class ComplainsServicesTest {
 
     private static final String URL = "http://localhost:8080/complains"; // TODO http://172.23.0.2:8080/complains
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private GsonBuilder gsonBuilder;
-    private List<Complain> complains;
-
-    @Before
-    public void setUp() throws Exception {
-        gsonBuilder = new GsonBuilder();
-        complains = given().contentType("application/json").get(URL).thenReturn().getBody().as(List.class);
-    }
 
     @Test
     public void should_return_complains_from_specific_company_in_specific_city () throws Exception {
-        // TODO should_return_complains_from_specific_company_in_specific_city
     }
 
     @Test
     public void should_ingest_a_complain() throws Exception {
+        List<Complain> complains = given().contentType("application/json").get(URL).thenReturn().getBody().as(List.class);
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","Rock Burguer");
-        logger.log(Level.INFO, URL);
-        Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
+        Response response = given().contentType("application/json").and().body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
         assertEquals(201,response.getStatusCode());
         final int size = complains.size();
         final int complainId = size + 1;
@@ -56,8 +46,7 @@ public class ComplainsServicesTest {
     @Test
     public void should_return_bad_request_for_invalid_complain() throws Exception {
         final Complain complainToIngest = new Complain("Hamburguer queimado","Hamburguer estava queimado","");
-        logger.log(Level.INFO, URL);
-        Response response = given().contentType("application/json").and().body(gsonBuilder.create().toJson(complainToIngest)).post(URL);
+        Response response = given().contentType("application/json").and().body(new GsonBuilder().create().toJson(complainToIngest)).post(URL);
         assertEquals(400,response.getStatusCode());
 
     }
